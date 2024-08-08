@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Balanço Pediátrico</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+        input[type="number"], input[type="text"], button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Calculadora de Balanço Pediátrico</h1>
+        <form id="form">
+            <label for="nome">Nome do Paciente:</label>
+            <input type="text" id="nome" name="nome">
+
+            <label for="peso">Peso (kg):</label>
+            <input type="number" id="peso" name="peso" step="0.1">
+
+            <label for="diurese">Diurese (ml):</label>
+            <input type="number" id="diurese" name="diurese" step="0.1">
+
+            <label for="dextrose">Dextrose (ml):</label>
+            <input type="number" id="dextrose" name="dextrose" step="0.1">
+
+            <label for="fisiologico">Fisiológico (ml):</label>
+            <input type="number" id="fisiologico" name="fisiologico" step="0.1">
+
+            <label for="via_oral">Via Oral (ml):</label>
+            <input type="number" id="via_oral" name="via_oral" step="0.1">
+
+            <label for="urina">Urina (ml):</label>
+            <input type="number" id="urina" name="urina" step="0.1">
+
+            <label for="fezes">Fezes (ml):</label>
+            <input type="number" id="fezes" name="fezes" step="0.1">
+
+            <label for="pia">PIA:</label>
+            <input type="number" id="pia" name="pia" step="0.1">
+
+            <button type="button" onclick="calcular()">Calcular</button>
+        </form>
+
+        <div id="result" class="result"></div>
+    </div>
+
+    <script>
+        function calcular() {
+            // Obter os valores dos campos do formulário
+            const peso = parseFloat(document.getElementById('peso').value);
+            const diurese = parseFloat(document.getElementById('diurese').value);
+            const dextrose = parseFloat(document.getElementById('dextrose').value);
+            const fisiologico = parseFloat(document.getElementById('fisiologico').value);
+            const viaOral = parseFloat(document.getElementById('via_oral').value);
+            const urina = parseFloat(document.getElementById('urina').value);
+            const fezes = parseFloat(document.getElementById('fezes').value);
+            const pia = parseFloat(document.getElementById('pia').value);
+
+            // Calcular os valores
+            const ritmoDiuretico = diurese / 6 / peso;
+            const totalEgresso = urina + fezes;
+            const balanço = (dextrose + fisiologico + viaOral) - totalEgresso;
+
+            // Ajustar o PIA
+            const piaAjustado = peso < 10 ? pia * 0.8 : pia * 1.2;
+
+            // Exibir os resultados
+            document.getElementById('result').innerHTML = `
+                <h2>Resultados</h2>
+                <p>Ritmo Diurético: ${ritmoDiuretico.toFixed(2)}</p>
+                <p>Total de Egresso: ${totalEgresso.toFixed(2)}</p>
+                <p>Balanço: ${balanço.toFixed(2)}</p>
+                <p>PIA Ajustado: ${piaAjustado.toFixed(2)}</p>
+            `;
+        }
+    </script>
+</body>
+</html>
